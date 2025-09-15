@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transaction Anomaly Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Bank Transaction Anomaly Detector</h1>
+            <p>Enter transaction details to check if it's normal or potentially fraudulent</p>
+        </header>
+
+        <main>
+            <div class="card form-card">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Transaction Details</h2>
+                <form id="transaction-form">
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="es_transportation">Transportation</option>
+                            <option value="es_food">Food</option>
+                            <option value="es_health">Health</option>
+                            <option value="es_leisure">Leisure</option>
+                            <option value="es_shopping">Shopping</option>
+                            <option value="es_home">Home</option>
+                            <option value="es_other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="" disabled selected>Select gender</option>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age">Age Group:</label>
+                        <select id="age" name="age" required>
+                            <option value="" disabled selected>Select age group</option>
+                            <option value="1">Group 1 (18-24)</option>
+                            <option value="2">Group 2 (25-34)</option>
+                            <option value="3">Group 3 (35-44)</option>
+                            <option value="4">Group 4 (45-54)</option>
+                            <option value="5">Group 5 (55-64)</option>
+                            <option value="6">Group 6 (65+)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn">
+                        <i class="fas fa-search"></i> Analyze Transaction
+                    </button>
+                </form>
+            </div>
+
+            <div class="card result-card" id="result-section" style="display: none;">
+                <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+                
+                <div class="results-container">
+                    <div class="result-item">
+                        <h3>Isolation Forest</h3>
+                        <div class="prediction-box" id="if-prediction">
+                            <span class="prediction-icon" id="if-icon"></span>
+                            <span class="prediction-text" id="if-result"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <h3>Autoencoder</h3>
+                        <div class="prediction-box" id="ae-prediction">
+                            <span class="prediction-icon" id="ae-icon"></span>
+                            <span class="prediction-text" id="ae-result"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mse-container">
+                    <h3>Reconstruction Error (MSE)</h3>
+                    <div class="mse-meter-container">
+                        <div class="mse-meter">
+                            <div class="mse-bar" id="mse-bar"></div>
+                            <div class="threshold-marker" id="threshold-marker"></div>
+                        </div>
+                        <div class="mse-labels">
+                            <span id="mse-value">0</span>
+                            <span id="threshold-value">Threshold: 0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-details" id="transaction-details">
+                    <h3>Transaction Details</h3>
+                    <pre id="transaction-json"></pre>
+                </div>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Processing transaction...</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Bank Transaction Anomaly Detector | Developed with <i class="fas fa-heart"></i> for Security</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
